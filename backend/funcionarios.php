@@ -116,5 +116,4 @@ if ($metodo == "GET") {
         echo json_encode(["status" => "erro", "mensagem" => $conn->error]);
     }
 }
-
 $conn->close();
