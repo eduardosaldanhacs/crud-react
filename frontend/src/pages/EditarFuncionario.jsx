@@ -17,7 +17,6 @@ function EditarFuncionario() {
           }
         );
         const result = await response.json();
-        console.log(result);
         setFuncionario(result);
       } catch (error) {
         console.error("Erro ao buscar funcionário:", error);
@@ -27,8 +26,16 @@ function EditarFuncionario() {
     buscarFuncionario(id); // chama a função assim que o id mudar
   }, [id]);
 
-  const handleSalvar = async (dadosAtualizados) => {
+  async function onAtualizaFuncionario(id, nome, cargo, salario, dataAdmissao) {
     try {
+      const dadosAtualizados = {
+        id,
+        nome,
+        cargo,
+        salario,
+        dataAdmissao,
+      };
+
       const response = await fetch(
         "http://localhost/crud-react/backend/funcionarios.php",
         {
@@ -36,25 +43,28 @@ function EditarFuncionario() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(dadosAtualizados),
+          body: JSON.stringify(dadosAtualizados), //o json.stringfy só aceita um argumento principal, é preciso colocar todos os dados dentro de um objeto/array, no caso a dadosAtualizados
         }
       );
 
       const result = await response.json();
 
       if (result.status === "ok") {
-        //Funcionário atualizado com sucesso!
-        navigate("/");
+        navigate("/"); // Redireciona se deu tudo certo
       } else {
-        alert("Erro ao atualizar funcionário: " + (result.mensagem || ""));
+        alert("Erro ao atualizar funcionário");
       }
     } catch (error) {
       console.error("Erro ao atualizar funcionário:", error);
-      alert("Erro ao atualizar funcionário.");
     }
-  };
+  }
 
-  if (!funcionario) return <div className="text-center"><img src="/loading.gif" alt="" /></div>;
+  if (!funcionario)
+    return (
+      <div className="text-center">
+        <img src="/loading.gif" alt="" />
+      </div>
+    );
 
   return (
     <div className="container mt-4">
@@ -65,7 +75,7 @@ function EditarFuncionario() {
         </button>
       </div>
       <FuncionarioForm
-        onCadastroFuncionario={handleSalvar}
+        onAtualizaFuncionario={onAtualizaFuncionario}
         funcionario={funcionario} // passa os dados para o form
       />
     </div>

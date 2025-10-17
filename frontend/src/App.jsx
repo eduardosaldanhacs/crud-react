@@ -53,8 +53,7 @@ function App() {
       );
 
       const result = await response.json();
-      console.log(result);
-      console.log("Resultado do cadastro:", result);
+
       if (result.status === "success") {
         setFuncionarios((prevFuncionarios) => [
           ...prevFuncionarios,
@@ -62,13 +61,13 @@ function App() {
         ]);
       }
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
-      //api para listar 
+      //api para listar
       const response = await fetch(
         "http://localhost/crud-react/backend/funcionarios.php",
         {
@@ -81,8 +80,10 @@ function App() {
     fetchFuncionarios();
   }, []);
 
-  useEffect(() => { //atualizar funcionarios no storage ao cadastrar novo funcionario
+  useEffect(() => {
+    //atualizar funcionarios no storage ao cadastrar novo funcionario
     localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
+    setFuncionarios(funcionarios);
   }, [funcionarios]);
 
   return (

@@ -17,7 +17,7 @@ $query = "INSERT INTO tb_despesas (despesa, valor) VALUES ('$nome', '$valor')";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    http_response_code(201); // Created
+    //http_response_code(201); // Created
     echo json_encode(['mensagem' => 'Despesa criada com sucesso']);
 } else {
     http_response_code(500);

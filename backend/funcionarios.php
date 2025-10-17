@@ -61,7 +61,6 @@ if ($metodo == "GET") {
     //CRIAR FUNCIONARIO
 } else if (isset($metodo) && $metodo == "POST") {
     $data = json_decode(file_get_contents('php://input'), true);
-    echo json_encode($data);
     if (empty($data['nome']) || empty($data['cargo']) || empty($data['salario']) || empty($data['dataAdmissao'])) {
         echo json_encode([
             'status' => 'error',
@@ -97,8 +96,19 @@ if ($metodo == "GET") {
             ]);
         }
     }
+    //ATUALIZAR FUNCIONARIO
 } else if ($metodo === 'PUT') {
     $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!is_array($data)) {
+        echo json_encode([
+            'status' => 'error',
+            'mensagem' => 'Corpo da requisição PUT inválido ou não é JSON',
+            'debug' => file_get_contents("php://input")
+        ]);
+        exit;
+    }
+
     $id = $data['id'];
     $nome = $data['nome'];
     $cargo = $data['cargo'];
