@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import ListarFuncionarios from "./components/ListarFuncionarios";
 import "./App.css";
 import FuncionarioForm from "./components/FuncionarioForm";
+import Notification from "./components/Notification";
 
 function App() {
   const [funcionarios, setFuncionarios] = useState(
     JSON.parse(localStorage.getItem("funcionarios")) || []
   );
+
+  const [notification, setNotification] = useState({
+    message: "",
+    type: "",
+  });
 
   async function onExcluirFuncionario(id) {
     try {
@@ -25,15 +31,21 @@ function App() {
         setFuncionarios(
           funcionarios.filter((funcionario) => funcionario.id !== id)
         );
+        setNotification({
+          message: "Funcionário excluído com sucesso!",
+          type: "alert alert-success",
+        });
+        setTimeout(() => {
+          setNotification({ message: "", type: "" });
+        }, 3000);
       } else {
-        console.log("Erro ao deletar");
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function onCadastroFuncionario(id, nome, cargo, salario, dataAdmissao) {
+  async function onCadastroFuncionario(nome, cargo, salario, dataAdmissao) {
     try {
       const response = await fetch(
         "http://localhost/crud-react/backend/funcionarios.php",
@@ -43,7 +55,6 @@ function App() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id,
             nome,
             cargo,
             salario,
@@ -65,7 +76,9 @@ function App() {
     }
   }
 
+  //LISTAR FUNCIONARIOS
   useEffect(() => {
+    //Efeito para executar
     const fetchFuncionarios = async () => {
       //api para listar
       const response = await fetch(
@@ -78,13 +91,13 @@ function App() {
       setFuncionarios(data);
     };
     fetchFuncionarios();
-  }, []);
+  }, []); //Depedência vazia, executa uma vez ao montar o componente
 
   useEffect(() => {
     //atualizar funcionarios no storage ao cadastrar novo funcionario
     localStorage.setItem("funcionarios", JSON.stringify(funcionarios));
     setFuncionarios(funcionarios);
-  }, [funcionarios]);
+  }, [funcionarios]); //Efeito acontece ao mudar o estado de funcionarios
 
   return (
     <div className="container mt-5">
@@ -94,6 +107,7 @@ function App() {
         onExcluirFuncionario={onExcluirFuncionario}
       />
       <FuncionarioForm onCadastroFuncionario={onCadastroFuncionario} />
+      <Notification message={notification.message} type={notification.type} />
     </div>
   );
 }

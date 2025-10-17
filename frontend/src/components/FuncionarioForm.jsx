@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import InputSalario from "./InputSalario";
 
-function FuncionarioForm({ funcionario, onAtualizaFuncionario }) {
+function FuncionarioForm({
+  funcionario,
+  onCadastroFuncionario,
+  onAtualizaFuncionario,
+}) {
   const [nome, setNome] = useState("");
   const [cargo, setCargo] = useState("");
   const [salario, setSalario] = useState("");
@@ -21,15 +25,17 @@ function FuncionarioForm({ funcionario, onAtualizaFuncionario }) {
     if (!nome || !cargo || !salario || !dataAdmissao) {
       alert("Preencha todos os campos!");
     } else {
-      console.log("Enviando dados:");
-      console.log(funcionario.id, nome, cargo, salario, dataAdmissao);
-      onAtualizaFuncionario(
-        funcionario?.id, // id
-        nome,
-        cargo,
-        salario,
-        dataAdmissao
-      );
+      if (funcionario && funcionario.id !== undefined) {
+        onAtualizaFuncionario(
+          funcionario.id, // id
+          nome,
+          cargo,
+          salario,
+          dataAdmissao
+        );
+      } else {
+        onCadastroFuncionario(nome, cargo, salario, dataAdmissao);
+      }
 
       // Se for cadastro, limpa os campos
       if (!funcionario) {
