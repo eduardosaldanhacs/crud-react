@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ListarFuncionarios from "./components/ListarFuncionarios";
 import "./App.css";
 import FuncionarioForm from "./components/FuncionarioForm";
-import Notification from "./components/Notification";
+import Notification from "./components/Notification/Notification";
 
 function App() {
   const [funcionarios, setFuncionarios] = useState(
@@ -13,6 +14,8 @@ function App() {
     message: "",
     type: "",
   });
+
+  const location = useLocation();
 
   async function onExcluirFuncionario(id) {
     try {
@@ -33,12 +36,13 @@ function App() {
         );
         setNotification({
           message: "Funcionário excluído com sucesso!",
-          type: "alert alert-success",
-        });
-        setTimeout(() => {
-          setNotification({ message: "", type: "" });
-        }, 3000);
+          type: "notification_success",
+        })
       } else {
+        setNotification({
+          message: "Erro ao excluir funcionário!",
+          type: "notification_error",
+        })
       }
     } catch (error) {
       console.log(error);
@@ -70,6 +74,16 @@ function App() {
           ...prevFuncionarios,
           result.funcionario,
         ]);
+
+        setNotification({
+          message: "Funcionario cadastrado com sucesso!",
+          type: "notification_success",
+        })
+      } else {
+        setNotification({
+          message: "Erro ao cadastrar funcionario!",
+          type: "notification_error",
+        })
       }
     } catch (error) {
       console.log(error);
@@ -99,6 +113,16 @@ function App() {
     setFuncionarios(funcionarios);
   }, [funcionarios]); //Efeito acontece ao mudar o estado de funcionarios
 
+  useEffect(() => {
+    if(location.state?.message) {
+      console.log("teste");
+      setNotification({
+        message: location.state.message,
+        type: location.state.type
+      })
+    }
+  }, [location.state]);
+
   return (
     <div className="container mt-5">
       <h1 className="text-primary">Lista de funcionarios</h1>
@@ -107,7 +131,9 @@ function App() {
         onExcluirFuncionario={onExcluirFuncionario}
       />
       <FuncionarioForm onCadastroFuncionario={onCadastroFuncionario} />
-      <Notification message={notification.message} type={notification.type} />
+      {notification.message && (
+        <Notification message={notification.message} type={notification.type} />
+      )}
     </div>
   );
 }

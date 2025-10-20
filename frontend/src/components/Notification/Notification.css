@@ -1,0 +1,43 @@
+/* Notification.css */
+.notification {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  animation: aparecerSumir 3s ease forwards;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* pode variar conforme o tipo */
+
+.notification_success {
+    background-color: #4caf50cc;
+}
+
+.notication_error {
+  background-color: #f44336;
+}
+.notification_warning {
+  background-color: #ff9800;
+}
+
+@keyframes aparecerSumir {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}

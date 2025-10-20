@@ -10,6 +10,7 @@ function FuncionarioForm({
   const [cargo, setCargo] = useState("");
   const [salario, setSalario] = useState("");
   const [dataAdmissao, setDataAdmissao] = useState("");
+  
   // Preenche os campos se for edição
   useEffect(() => {
     if (funcionario) {

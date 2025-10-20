@@ -50,7 +50,9 @@ function EditarFuncionario() {
       const result = await response.json();
 
       if (result.status === "ok") {
-        navigate("/"); // Redireciona se deu tudo certo
+        navigate("/", {
+          state: { message: "Funcionario atualizado com sucesso!", type: "notification_success"},
+        }); 
       } else {
         alert("Erro ao atualizar funcionário");
       }
