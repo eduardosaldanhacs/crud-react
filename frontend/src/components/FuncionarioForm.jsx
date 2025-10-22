@@ -53,7 +53,7 @@ function FuncionarioForm({
       className="row justify-content-center align-items-center mt-4"
       onSubmit={verificarCampos}
     >
-      <div className="col-6 bg-light py-3">
+      <div className="col-6 py-3 border bg-white rounded">
         <div>
           <label className="form-label">Nome</label>
           <input
@@ -77,7 +77,7 @@ function FuncionarioForm({
         <InputSalario
           className="form-control"
           type="text"
-          placeholder="1.000,00"
+          placeholder="Ex: 1.000,00"
           value={salario}
           onChange={(e) => setSalario(e.target.value)}
         />
