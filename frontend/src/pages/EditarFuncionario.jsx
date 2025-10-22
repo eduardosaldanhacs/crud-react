@@ -35,7 +35,7 @@ function EditarFuncionario() {
         salario,
         dataAdmissao,
       };
-
+      console.log(dadosAtualizados);
       const response = await fetch(
         "http://localhost/crud-react/backend/funcionarios.php",
         {
@@ -63,7 +63,7 @@ function EditarFuncionario() {
 
   if (!funcionario)
     return (
-      <div className="text-center">
+      <div className="gif-on-center">
         <img src="/loading.gif" alt="" />
       </div>
     );

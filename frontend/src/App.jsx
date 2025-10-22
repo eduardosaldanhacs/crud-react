@@ -115,7 +115,6 @@ function App() {
 
   useEffect(() => {
     if(location.state?.message) {
-      console.log("teste");
       setNotification({
         message: location.state.message,
         type: location.state.type
@@ -124,8 +123,8 @@ function App() {
   }, [location.state]);
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-primary">Lista de funcionarios</h1>
+    <div className="container-fluid p-5 bg-light">
+      <h1 className="text-primary text-center mb-4">Lista de funcionarios</h1>
       <ListarFuncionarios
         funcionarios={funcionarios}
         onExcluirFuncionario={onExcluirFuncionario}

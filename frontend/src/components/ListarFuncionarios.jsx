@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import {formatarReal } from '../js/functions';
 function ListarFuncionarios({funcionarios, onExcluirFuncionario }) {
   const navigate = useNavigate();
   return (
@@ -13,17 +13,17 @@ function ListarFuncionarios({funcionarios, onExcluirFuncionario }) {
               <p className="card-text">Data Admissão:  
                 {funcionario.data_admissao ? new Date(funcionario.data_admissao).toLocaleDateString("pt-BR") : ''}
                 </p>
-              <p className="card-text">Salário: {funcionario.salario}</p>
+              <p className="card-text">Salário: {formatarReal(funcionario.salario)}</p>
             </div>
           </div>
           <button
-            className="btn btn-outline-danger mt-2"
+            className="btn btn-danger mt-2"
             onClick={() => onExcluirFuncionario(funcionario.id)}
           >
             Excluir
           </button>
           <button
-            className="btn btn-outline-primary mt-2"
+            className="btn btn-primary mt-2 ms-2"
             onClick={() => navigate(`/funcionario/${funcionario.id}`)}
           >
             Editar

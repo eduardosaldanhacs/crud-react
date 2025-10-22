@@ -112,14 +112,14 @@ if ($metodo == "GET") {
     $id = $data['id'];
     $nome = $data['nome'];
     $cargo = $data['cargo'];
-    $salario = str_replace('.', '', $data['salario']);
-    $salario = str_replace(',', '.', $salario); // Converter para formato decimal
+    $salario = $data['salario'];
+    $salario = preg_replace('/[^0-9.]/', '', $salario);
+    $salario = (float) $salario;
     $dataAdmissao = $data['dataAdmissao'];
 
     $sql = "UPDATE funcionarios 
             SET nome='$nome', cargo='$cargo', salario='$salario', data_admissao='$dataAdmissao' 
             WHERE id=$id";
-
     if ($conn->query($sql)) {
         echo json_encode(["status" => "ok"]);
     } else {
